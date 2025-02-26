@@ -1,0 +1,22 @@
+const handleDeleteCourse = async (id) => {
+  try {
+    // Delete from database
+    await axios.delete(`${API_BASE_URL}/courses/${id}`);
+    
+    // Update local state
+    const updatedCourses = localCourses.filter(course => course.id !== id);
+    setLocalCourses(updatedCourses);
+    
+    // Update localStorage
+    localStorage.setItem('courses', JSON.stringify(updatedCourses));
+  } catch (error) {
+    console.error("Error deleting course:", error);
+    
+    // Still update local state even if API call fails
+    const updatedCourses = localCourses.filter(course => course.id !== id);
+    setLocalCourses(updatedCourses);
+    
+    // Update localStorage
+    localStorage.setItem('courses', JSON.stringify(updatedCourses));
+  }
+};
